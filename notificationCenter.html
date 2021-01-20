@@ -1,0 +1,65 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+</head>
+
+<body>
+
+    <div id="app" class="ui container">
+        <h1>Notification Center</h1>
+        <notification-message type="error" header='Oh no!'>Your flight has been canceled!</notification-message>
+        <notification-message type="success" header='Oh yeah!'>You just won a lottery!</notification-message>
+        <notification-message></notification-message>
+    </div>
+
+    <!-- Template for Notification Message -->
+    <script type="text/x-template" id="notification-message-template">
+        <div :class="`ui ${type} message`" v-if="!hidden">
+            <i class="close icon" @click="closeNoti"></i>
+            <div class="header">
+                {{header}}
+            </div>
+            <slot>You are awesome!!!</slot>
+        </div>
+  </script>
+
+    <!-- Import Vue.js -->
+    <script src="https://unpkg.com/vue"></script>
+
+    <!-- Your JavaScript Code :) -->
+    <script>
+        const NotificationMessageComponent = {
+            template: '#notification-message-template',
+            data() {
+                return {
+                    hidden: false
+                }
+            },
+            props: {
+                type: {
+                    type: String,
+                    default: 'info'
+                },
+                header: {
+                    type: String,
+                    default: 'Have a nice day!'
+                }
+            },
+            methods: {
+                closeNoti() {
+                    this.hidden = !this.hidden
+                }
+            }
+        }
+
+        new Vue({
+            el: '#app',
+            components: {
+                'notification-message': NotificationMessageComponent
+            }
+        })
+    </script>
+</body>
+
+</html>
